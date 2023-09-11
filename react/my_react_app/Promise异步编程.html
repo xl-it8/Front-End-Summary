@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //三种状态 pending rejected fullfilled
+      class MyPromise {
+        state = 'pending' //状态
+        result //结果
+        callbacks = [] //存放then的回调函数
+        constructor(callback) {
+          callback(this.resolve.bind(this), this.reject.bind(this))
+        }
+
+        //私有的方法
+        resolve(value) {
+          //状态只会改变一次
+          if (this.state !== 'pending') return
+          this.result = value
+          this.state = 'fullfilled'
+          queueMicrotask(() => {
+            //加入微任务队列
+            this.callbacks.length &&
+              this.callbacks.forEach((cb) => {
+                cb()
+              })
+          })
+        }
+
+        reject() {}
+
+        then(onFullfilled, onRejected) {
+          return new MyPromise((resolve, reject) => {
+            if (this.state === 'pending') {
+              this.callbacks.push(() => {
+                const res = onFullfilled(this.result)
+                resolve(res instanceof MyPromise ? res.result : res)
+              })
+            } else {
+              queueMicrotask(() => {
+                const res = onFullfilled(this.result)
+                resolve(res instanceof MyPromise ? res.result : res)
+              })
+            }
+          })
+        }
+      }
+
+      //   const p = new MyPromise((resolve, reject) => {
+      //     resolve(3)
+      //   })
+      // new MyPromise((resolve) => {
+      //   resolve(3)
+      // }).then((val)=>{
+      //     console.log(val)
+      // })
+      new MyPromise((resolve) => {
+        resolve(3)
+      })
+        .then((val) => {
+          return new MyPromise((resolve) => {
+            resolve(45)
+          })
+        })
+        .then((val) => {
+          console.log(val)
+        })
+    </script>
+  </body>
+</html>

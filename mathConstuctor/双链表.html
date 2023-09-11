@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //单链表 有一个一个节点组成 可在任意位置删除 在前在后添加
+      // 头部--》中间1==》 中间2==》结尾==》null
+      class Node {
+        constructor(element) {
+          this.element = element //节点的内容
+          this.next = null //该节点的下一个指向谁
+        }
+      }
+      class LinkedList {
+        constructor() {
+          this.head = null //该链表的头部节点是谁
+          this.count = 0 //记录节点的个数
+        }
+
+        push(element) {
+          //添加方法
+          const node = new Node(element) //创建一个节点
+          if (this.head === null) {
+            //说明之前没有节点
+            this.head = node
+          } else {
+            let current = this.head //保存最开始的头部
+            while (current.next !== null) {
+              //找到最后一个节点
+              current = current.next
+            }
+            current.next = node
+          }
+          this.count++
+        }
+
+        //指定位置删除
+        removeAt(index) {
+          if (index >= 0 && index < this.count) {
+            let current = this.head
+            if (index === 0) {
+              this.head = this.head.next
+            } else {
+              let previous = this.find(index - 1) //找到指定节点的前一个
+              current = previous.next //previous的下一个是当前的节点元素
+              previous.next = current.next //当前的节点前一个节点指向当前节点的下一个 跳过当前节点
+            }
+            this.count--
+            return current.element
+          }
+        }
+
+        //根据数据删除对应的节点
+        remove(element) {
+          //根据数据找到对应的索引
+          const index = this.indexOf(element)
+          return this.removeAt(index)
+        }
+
+        //根据任意位置插入
+        insert(element, index) {
+          if (index >= 0 && index <= this.count) {
+            const node = new Node(element)
+            if (index === 0) {
+              const current = this.head
+              node.next = current
+              this.head = node
+            } else {
+              const previous = this.find(index - 1)
+              const current = previous.next
+              node.next = current
+              previous.next = node
+            }
+            this.count++
+          }
+        }
+
+        //根据数据找到对应的索引
+        indexOf(element) {
+          let current = this.head
+          for (let i = 0; i < this.count; i++) {
+            if (this.isEqual(current.element, element)) {
+              return i
+            }
+            current = current.next
+          }
+        }
+
+        isEqual(a, b) {
+          return a === b
+        }
+
+        //根据索引找到指定的节点
+        find(index) {
+          let current = this.head
+          for (let i = 1; i <= index; i++) {
+            current = current.next
+          }
+          return current
+        }
+      }
+    </script>
+    <script>
+      class DoubleNode extends Node {
+        constructor(element) {
+          super(element)
+          this.prev = null
+        }
+      }
+      class DoubleLinkedList extends LinkedList {
+        constructor() {
+          super()
+          this.tail = null //添加一个尾部的
+        }
+
+        push(element) {
+          const node = new DoubleNode(element)
+          if (this.head === null) {
+            this.head = node
+            this.tail = node
+          } else {
+            this.tail.next = node
+            node.prev = this.tail
+            this.tail = node
+          }
+          this.count++
+        }
+
+        insert(element, index) {
+          if (index >= 0 && index <= this.count) {
+            //排除负的位置以及大于总个数
+            const node = new DoubleNode(element)
+            let current = this.head
+            //一个都没有的情况
+            if (index === 0) {
+              if (this.head === null) { //就一个节点
+                this.head = node
+                this.tail = node
+              } else { //不止一个节点
+                node.next = this.head
+                this.head.prev = node
+                this.head = node
+              }
+            } else if (index === this.count) { //最后一个插入
+              current = this.tail
+              current.next = node
+              node.prev = current
+              this.tail = node
+            } else {
+              const previous = this.find(index - 1)
+              current = previous.next
+              node.next = current
+              current.prev = node
+              previous.next = node
+              node.prev = previous
+            }
+
+            this.count++
+            return true
+          }
+          return false
+        }
+
+        removeAt(index) {
+          if (index >= 0 && index < this.count) {
+            let current = this.head
+            if (index === 0) { //删除第一个
+              this.head = current.next
+              if (this.count === 1) {
+                this.tail = null
+              } else {
+                this.head.prev = undefined
+              }
+            } else if (index === this.count - 1) { //删除最后一个
+              this.tail = this.tail.prev
+              this.tail.next = undefined
+            } else {
+              let previous = this.find(index - 1) //找到之前的
+              current = previous.next
+              previous.next = current.next
+              current.next.prev = previous //当前的下一个的prev指向当前的前面一个节点
+            }
+            this.count--
+            return current.element
+          }
+        }
+
+        getHead() {
+          return this.head
+        }
+
+        getTail() {
+          return this.tail
+        }
+      }
+
+      const p = new DoubleLinkedList()
+    </script>
+  </body>
+</html>

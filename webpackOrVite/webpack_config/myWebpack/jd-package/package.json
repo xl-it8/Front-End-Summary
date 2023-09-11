@@ -1,0 +1,26 @@
+{
+  "name": "jd-package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "jd-package": "./bin/jd-package.js"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/generator": "^7.21.1",
+    "@babel/traverse": "^7.21.0",
+    "@babel/types": "^7.21.0",
+    "babylon": "^6.18.0",
+    "ejs": "^3.1.8",
+    "tapable": "^2.2.1"
+  }
+}

@@ -1,0 +1,4 @@
+@font-face {
+  font-family: 'myFont'; /* Project id 3802673 */
+  src: url('../assets/myFonts/TsangerYuYangT_W01_W01.ttf') /*这里的字体设置不要和assest放在一起*/
+}

@@ -1,0 +1,30 @@
+{
+  "id": "3802673",
+  "name": "messageWall",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11372717",
+      "name": "微信",
+      "font_class": "weixin",
+      "unicode": "e8bb",
+      "unicode_decimal": 59579
+    },
+    {
+      "icon_id": "8288959",
+      "name": "爱心",
+      "font_class": "aixin",
+      "unicode": "e85c",
+      "unicode_decimal": 59484
+    },
+    {
+      "icon_id": "3197733",
+      "name": "树叶",
+      "font_class": "shuye",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    }
+  ]
+}

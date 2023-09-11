@@ -1,0 +1,628 @@
+数据类型  运算符  流程控制 数组 面向对象
+
+面向对象  封装性 权限修饰符 继承性 extends 构造器 多态性 Person xx = new Man() 
+关键字 
+     
+   abstract 抽象
+      运用 抽象类 抽象方法
+      抽象类 不能创建实例
+      抽象方法 需要重写  public abstrct void xxx();
+       抽象类可以没有抽象方法  抽象方法一定是抽象类
+
+   final  
+     类  不能继承 
+        属性 不能修改 是常量
+        方法 不能重写
+
+  static
+     静态属性  只有一份
+         静态方法 只有一份
+  
+
+
+类 class
+ 
+
+接口 interface
+
+   interface xxx {
+       属性要求：final static 修饰  可省略
+        方法要求 抽象方法  可省略
+
+}
+
+类与类 单继承  extends
+
+  继承会默认创建空参的构造器 以及super调用父类的构造器
+
+类与接口  实现 implements
+  接口实现需要对方法进行重写 否则报错
+
+接口与接口 多继承
+
+class A extends B implements C,D {} A为之类或者实现类
+
+方法块  静态和非静态 static {} 随着类创建而调用 {}随着实例创建而执行
+执行顺序 从父到子 静态先调
+
+默认参数赋值 》 显示赋值或者代码块  》构造器 》 方法调用
+
+
+
+内部类 在类中定义的 还有就是 方法中定义的  类中定义的 A.this.方法名
+class A {
+
+  class B{
+
+      method2(){
+         this执行自己的类
+                A.this.xxx父类的方法
+       }
+    }
+
+   method(){
+         class C{}
+   }
+}
+new A.B().xxx
+
+
+几种常见的调用方式
+class B {
+}
+class A extends B {
+
+}
+
+1. A xx = new A()
+xx.yy()
+
+2. new A().yy() //匿名
+
+3.B xx = new B(){
+  
+   }
+
+3. new B(){ 创建继承与父类的子类的匿名对象
+  
+   }.yy()
+
+enum枚举类
+
+enum 常用的方法 toString()  name() 枚举名字  values()返回数组所有枚举   valueof 指定某个枚举
+最早写法
+enum A {
+ private final String name；
+  private final String color；
+
+ A(String name, String color){
+      this.name = name;
+      this.color = color;
+ } 
+
+public String getName(){
+ return name;
+}
+
+public String getColor(){
+ return color;
+}
+
+public static A SPRING = new A('春天'，’绿色‘)；
+public static A SUMMNER = new A('夏天'，’红色‘)；
+ 
+}
+
+简写 enum A {   获取 A.SPRING.getName()
+SPRING ('春天'，’绿色‘){} ==> 这种写法可以重写 创建继承与该对象的子类的匿名对象；
+SUMMNER('夏天'，’红色‘)；
+ private final String name；
+  private final String color；
+
+ A(String name, String color){
+      this.name = name;
+      this.color = color;
+ } 
+
+public String getName(){
+ return name;
+}
+
+public String getColor(){
+ return color;
+}
+
+
+A.LEFT 会默认调用它的toString()方法
+enum A {
+  LEFT,RIGHT,TOP
+}
+
+ 
+}
+
+
+Annotation 注解  @depricate 废弃 @supressWarning控制台警告 @override重写
+                    元注解 就是对注解注解的注解  常见 @target 控制哪些可用使用 比如 构造器 类 内部类等等   @spring
+   框架 = 注解 + 反射 + 设计模式 后期会使用
+
+单元测试 junit 安装库 设置=》 libaries=》 module配置 @test public void test(){ 这里面是测试代码} 可以借助设置==》live template 那里设置模板 以后直接可用
+
+快捷键
+  alt + enter 可以自动填充类型
+  alt + insert 可以插入get set
+  ctrl + n 可以搜索源码
+  ctrl + f5 可以快速查找源码位置
+    ctrl+ i 重写方法
+
+调试  右键 debugger  方法里调试  类调试 属性调试 循环里设置条件调试 比如循环到i=3 停止
+
+基本数据类型--》复杂数据类型 自动装箱 具有对象的特征
+ byte ==》 Byte
+ short ==》 Short
+ int ==》 Integer
+ long ==》 Long
+ float ==》 Float
+ doubble ==》 Doubble
+ char ==》 Character
+ boolean ==》 Boolean
+
+比如 int num = 3  Integer num3 = num
+复杂数据类型 ==》 基本数据类型 自动拆箱
+
+比如 Integer num3 = 3 int num4 =num3
+
+ // 自动装箱
+        Integer num1 = 6;
+        // 自动拆箱
+        int num2 = num1;
+String 与基本数据类型和复杂数据类型的转换
+数据类型 ==> 字符串  Stirng xxx = String.valueOf(复杂数据类型)
+
+字符串 ==》 基本数据类型  比如 int xxx = integer.parseInt()
+
+错误 和异常 都继承于 Throwable
+Error
+  是jvm出现错误 不能靠程序修改
+
+  常见的两种错误  
+    oom 就是堆溢出  Integer[] xx = new Integer(xxxx)
+    栈溢出
+
+Exception
+   异常 就是有  编译异常 和执行异常
+
+   编译异常 
+        比如 io流异常 读取未存在的文件 也可能异常
+  执行异常
+          比如 取超出数组索引值
+                 空指针 null.xxx 前面是null
+          算数问题  比如 2 / 0
+                 数字类型处理 本来是数字后来改成其他类型 并以数字类型做处理
+
+
+异步错误的处理方式
+  1. try{} catch（）{}。。。 finally{} finally是失败成功都会执行  try有自己的作用域外面访问不了里面的变量
+   使用场景: 编译时要做的处理 ，执行时其实不需要自己处理 IO文件流关闭的时候可以使用
+
+ 2. throws 错误类型1，错误类型2   格式 public void xxxx() throws 错误类型 {}
+    使用场景: 编译时要做的处理 自己处理不了抛给调用者 调用者处理不了继续抛最终让trycatch处理
+   注意：继承子类的错误类型一定要小于等于父类的错误类型
+        比如子类throws Exception 父类 throws IOException 错误行为 
+       
+ 3.手动抛错 throw new 错误类型（）
+可以调用 e.printStackTrace() 打印错误栈信息
+
+线程知识
+  进程，线程，程序，并行，并发的基本概念
+  线程是cpu调度的最小单元
+ 线程的创建4种方式
+     方式1:  继承Thread方式
+          class A extends Thread {
+          public void run(){}
+       }
+      A xx = new A()
+      xx.start()开启线程 执行线程的run方法
+
+    方式2: 实现Runnable的方式
+
+      class A implements Runnable {
+          public void run(){}
+}
+     A xx = new A()
+     Thread xx2 = new Thread(xx)
+      xx2.start() 开启线程 执行线程的run方法
+
+了解 方法3:
+      使用实现Callable的方式 有点类似 方式二 但是run可以有返回值，以及可以抛出错误
+
+      方法4：
+        线程池的方式 juc再学 
+           一个线程里多个线程  分配给多个任务 当任务大于线程 要么再建线程（线程有一定限制）要么任务等待
+                  
+相同点 都需要调用线程的start方法开启线程
+不同点 方式一需要创建多个对象 而方式二只需要创建一个 
+           方式二数据和逻辑分离
+
+常见线程的方法
+ Thread.currentThread() 静态方法 得到正在运行的线程
+ xxx.getName() 获取线程的名字
+ xxx.setName() 修改线程的名字
+ xxx.start() 开启线程
+ xxx.run() 执行线程的我们所写的run方法
+ Thread.sleep(时间) 静态方法 线程等待多少秒执行
+ Thread.yield() 静态方法 在线程操作中，调用yied()方法可以使当前线程主动放弃时间片，回到就绪状态，竞争下一次时间片
+ xxx.join()  线程xx执行的时候yy线程堵塞 等待xx执行完
+xxx.getPriority()  获取优先级 
+xxx.setPriority() 设置优先级  MAX_PRIORITY (10) MIN_PRIORITY(0) NORMAL_PRIORITY(5)
+xxx.stop() 强制线程停止运行
+isAlive() 线程是否存活
+线程的生命周期
+ 创建  -》 就绪 -》堵塞-》运行 -》死亡
+
+jdk5之后的生命周期  创建  -》 runnable(包含就绪 运行) =》 死亡
+             runnble还涉及堵塞  堵塞细分 锁堵塞  计时堵塞 无限堵塞
+
+线程安全问题的解决方案
+  比如车站买票 三个窗口 售卖总100张票 如果是多个线程同时执行 会出现重复票或者负数票的问题不安全 
+  通过使用同步代码块解决 等某个线程执行完毕再执行下一个线程 相当于厕所门口排队 第一个线程进去锁门 处理完出来解锁 第二个线程再进去
+
+方法一 同步代码块 同步锁
+  synchronized(这里是给对象（同步监视器） 要唯一值 如果是继承方式创建的 用XXX.class 如果是实现类创建的用this ){
+
+}
+
+方法二 同步方法  
+    public synchronized void xxx(){}      同步方法  如果是继承方式创建的 静态方法默认是XXX.class本身 非静态是指向this 如果是实现类创建的默认同步监视器指向this 
+
+例子
+
+ 甲乙两人同时向一个账户存钱 会出现线程安全问题吗？
+
+ class CustomerTest{
+  public static void main（String[] args）{
+     
+        Account acc = new Account()
+       
+        Customer cust1 = new Customer(acc,'甲')
+        Customer cust2 = new Customer(acc，'乙')
+
+       cust1.start()
+       cust2.start()
+
+
+  }
+}
+
+ class Account{
+  private int balance;
+
+  public void Account(){
+   
+
+  }
+
+   public void Account(int balance){
+       this.balance = balance
+  }
+  public synchronized void deposit(int amt){ //同步方法 同步监控器指向this
+     if(amt > 0){
+         amt += balance
+     }
+       try {
+               Thread.sleep(10）
+            } catch(InterruptedException e){
+               e.printStackTrace()  
+            }
+      System.out.print(Thread.currentThread.getName +"存入”+amt+当前账户余额是"+balance)
+  }
+}
+
+class Customer extends Thread{
+  Account account //同一个账户
+
+   public Customer(){
+
+  }
+
+   public Customer(Account account,String name){
+        super(name)
+        this.account =account
+  }
+
+  public run（）{
+
+       for（int i =0;i<3;i++）{
+            try {
+               Thread.sleep(10）
+            } catch( InterruptedException e){
+               e.printStackTrace()  
+            }
+            account.deposit(1000)
+          
+       }
+   
+  }
+ 
+}
+
+
+
+线程安全懒汉式 可以通过同步方法或同步代码块解决线程安全问题
+
+方法三：
+  lock = new ReentrantLock() 创建锁 只能有一个
+  lock.lock()  和lock.unlock() 方法 控制同步
+
+死锁概念  避免死锁问题
+   例子 比如两个人吃饭 一人一个筷子 都不给对方就都吃不了饭
+           你先给我钱我再去买鸡蛋,你先去买鸡蛋我再给你钱
+   死锁指多个线程在执行过程中,因争夺资源造成的一种相互等待的僵局
+
+线程间的通信机制
+
+   wait()  等待,释放同步监控器
+   notify()  唤醒线程，唤醒之后 线程会从上次wait之后开始执行
+   notifyAll() 唤醒全部等待的线程
+
+wait()和sleep()区别
+   1. wait()是Object的方法  sleep是Thread的静态方法
+   2. wait必须在synchronized同步方法或者同步代码块内 而 sleep可以在容易地方
+  3. wait 是可以传时间唤醒 也可以调用notify唤醒 而sleep只能是时间
+  4.wait 等待之后会释放同步监听器 而sleep还在 
+
+生产者和消费者案例？
+ //员工 商店数量
+         class Clerk{
+            privated int productedNum;
+
+            //生产的数量大于20 停止生产
+            public synchronized void addPro(){
+               if(productedNum>20){
+                try{
+                  wait()
+                }catch(InterruptExction e){
+                  e.printStackTrace()
+                }
+               }else {
+                productedNum++
+               System.print.out(Thread.currentThread.getName + '生产了' +productedNum+ '产品' )
+               }
+               
+               notifyAll()
+            }
+
+             //消费数量为0就停止消费
+            public synchronized void reducePro(){
+  if(productedNum<0){
+                try{
+                  wait()
+                }catch(InterruptExction e){
+                  e.printStackTrace()
+                }
+               }else {
+
+               System.print.out(Thread.currentThread.getName + '消费了' +productedNum+ '产品' )
+               }
+                productedNum--
+               notifyAll()
+            }
+      }
+
+      class Comsumer extends Thread{
+            privated Clerk clerk;
+
+            public Comsumer(){
+
+            }
+            public Comsumer(Clerk clerk){
+              this.clerk = clerk
+            }
+             public void run(){
+           while(true){
+                 try{
+                  Thred.sleep(500)
+                }catch(InterruptExction e){
+                  e.printStackTrace()
+                }
+                clerk.reducePro()
+           }
+        }
+      }
+
+      class Productor extends Thread{
+        privated Clerk clerk;
+
+        public Productor(){
+
+        }
+        public Productor(Clerk clerk){
+          this.clerk = clerk
+        }
+        public void run(){
+           while(true){
+                 try{
+                  Thred.sleep(500)
+                }catch(InterruptExction e){
+                  e.printStackTrace()
+                }
+                clerk.addPro()
+           }
+        }
+
+      }
+
+      class ProductorComuser{
+        public static void main(String[] args){
+            Clerk clerk = new Clerk()
+           Productor pro = new Productor(clerk)
+           Comsumer coms1 = new Comsumer(clerk)
+           pro.setName('生产者')
+           coms1.setName('消费者1')
+           pro.start()
+           coms1.start()
+
+        }
+      }
+
+
+常用类API
+  String类
+       字面量形式是不可变的  在常量池中唯一  jdk5之后在堆内存保存 之前在方法区
+       如： “hello” 一块小空间 地址假设0x1234然后value指向这个 hello小空间
+      常量 + 常量  = 还是常量 
+          String xx = ’hello‘
+          String yy = "he" + “llo”
+         xx == yy  true
+       变量 + 变量 = 新创建对象
+
+     字符串.intern() 作用就是返回常量池对应数据的地址值
+
+
+
+File文件对象
+   new File() 可以是绝对地址 和相对地址  相对地址 在test测试方法中是以模块为准 main方法中是以 工程目录为准
+  文件对象方法 查文档
+
+  io流 input ouput传输
+    按单位  字节流和字符流
+    按角色   节点流和处理流
+    按流向    输入流和输出流
+
+
+                   输入流              输出流
+
+字节流        inputStream    outputStream
+
+
+字符流       reader          writer
+
+File开头的流属于节点流 比如 FileInputSteam
+
+返回的对象 常见方法有 读取read 和写 write
+
+
+
+处理流
+   缓存流 buffed开头的  如 buffedInputStream
+        作用就是 提高读写效率 减少对磁盘操作
+  转换流   
+       字符流和节点流之间转换  编码和解码的过程 注意字符集要兼容
+       api 有 
+        inputStreamReader   文件=》内存 读取 字节流==》字符流
+     outputStreamWriter  内存=》 文件 写入 字符流==》字节流
+ 
+       需要注意 字符集  GBK  UTF8 ASCII码
+       对于内存来说 一个字为两个字节
+       对于文件读写  按不同的字符集  GBK 一个中文是2个字节 UTF8一个中文是3个字节
+
+  对象流
+      对象流的作用:在流连接当中负责将Java中的任何对象进行读写操作(网络之间)
+     ObjectInputStream等等
+     方法： 
+           readObject()从流中读取一个对象。 
+       writeObject(Object obj)向流中写入一个对象。
+      允许把内存中的Java对象转换成和平台无关的二进制流，从而允许把这种二进制流持久地保存在磁盘上，或通过网络将这种二进制流传输到另一个网络节点（序列化）；其它程序获取了这种二进制流，就可以恢复成原来的Java对象（反序列化）。
+
+   注意对象流满足条件
+       1.所保存的对象必须实现Serializable接口 
+       2.要给该对象提供一个版本号,private static final long serialVersionId = xxxx
+
+举例 一般是通用步骤
+ public static void main(string[] args){
+     try {
+     //创建文件对象
+           File file1 = new File('xxx.txt') //已有的文件
+       File file2 = new File('xxx.txt') //可以是未存在的文件
+
+       //创建io流对象
+           FileInputStream fis = new FileInputStream(file1)
+       FileOutputStream fos = new FileOutputStream(file1)
+
+      //如果是处理流可以在这里进行对上面创建对象进行二次处理
+            如 BufferedInputStream bis = BufferedInputStream(fis)
+
+      //进行读写操作
+        byte[] bt = new byte(5)
+        int len; //记录没次读取的长度
+        while((len = fis.read()) !== -1){
+              fos.write(bt,0,len) 
+        }
+
+      }catch(类型 e){
+     //关闭流
+             try {
+            if(fis == null) return
+           fis.close()
+        }catch(e){
+            e.printStackTrace()
+         }
+
+        try {
+            if(fos == null) return
+           fos.close()
+        }catch(e){
+            e.printStackTrace()
+         }
+
+     }
+
+
+  
+
+  }
+
+集合 数组的升级版本
+集合 Collection
+数组是有序 且可重复的 
+Java集合类主要由两个根接口Collection和Map派生出来的。
+集合
+  Collection 
+    ----- ArrayList  
+                                   优点: 底层数据结构是数组，查询快，增删慢。
+                                   缺点: 线程不安全，效率高
+     ---- LinkedList 
+                                     优点: 底层数据结构是链表，查询慢，增删快。
+                                     缺点: 线程不安全，效率高
+     -----hashSet  
+                 HashSet底层数据结构采用哈希表实现，元素无序且唯一，线程不安全，效率高，可以存储null元素，元素的唯一性是靠所存储元素类型是否重写hashCode()和equals()方法来保证的，如果没有重写这两个方法，则无法保证元素的唯一性。
+
+linkedHashSet 底层数据结构采用链表和哈希表共同实现，链表保证了元素的顺序与存储顺序一致，哈希表保证了元素的唯一性。
+
+treeSet  底层数据结构采用二叉树来实现，元素唯一且已经排好序,唯一性同样需要重写hashCode和equals()方法，二叉树结构保证了元素的有序性。
+  hashMap 
+  linkedHashMap 
+  treeMap
+
+  set 无序且不重复 要重写hashCode和equals 要保证hashCode和equals一样就代表相等
+
+   map就是无序且唯一的  key-》 value
+   properties 就是map中 key value都是字符串类型的
+
+
+  
+Collection提供的方法 add addAll remove removeAll isEmpty size 等等
+ 获取迭代器   iterator()  => 返回对象 有next()  hasNext() 方法
+ 
+list 有add remove set get等等方法
+
+提供增强for循环 类似js的for of
+ for(类型 变量 : 对象 ) {}
+
+泛型 
+  类泛型  如 ArrayList<类型> arrlist = new ArrayList<>() 后面写成<>是可以的 类型推断
+
+自定义泛型
+ 类
+  class XX<T>{
+   T xx；
+
+ }
+
+方法 
+  自定义方法泛型结构 public <T> 返回类型 方法名（类型  参数）{}
+
+注意 类和方法泛型无关
+    不确定类型考虑泛型
+
+

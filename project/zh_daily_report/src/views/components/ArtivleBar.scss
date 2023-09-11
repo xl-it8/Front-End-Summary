@@ -1,0 +1,22 @@
+.artivleBar_box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 100px;
+    width: 100%;
+    background-color: #F5F6F5;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 1000;
+    .artivleBar_left {
+        padding: 0 30px;
+        border-right: 1px solid rgb(61, 226, 158);
+    }
+    .artivleBar_right {
+        flex:1 ;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+}

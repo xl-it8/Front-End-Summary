@@ -1,0 +1,12 @@
+#root {
+    height: 100%;
+    margin: 0 auto;
+}
+
+.adm-dot-loading {
+    font-size: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}

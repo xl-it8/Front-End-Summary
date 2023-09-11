@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //二叉堆  有最大堆和最小堆
+      //最小堆 就是保证主节点比分支节点小 同时结构要均衡分布
+      //以数组的形式存储  节点有自己索引号 通过主节点索引获取子节点索引通过算法2x + 1  而通过子节点索引获取主节点索引Math.floor((x-1)/2)
+      //字典映射
+      const treeMap = {
+        less: -1,
+        bigger: 1,
+        equ: 0,
+      }
+      class MinHeap {
+        heap = [] //维护成数组
+
+        getLeftIndex(index) {
+          return 2 * index + 1
+        }
+
+        getRightIndex(index) {
+          return 2 * index + 1
+        }
+
+        compare(a, b) {
+          if (a === b) {
+            return treeMap['equ']
+          }
+          return a < b ? treeMap['less'] : treeMap['bigger']
+        }
+        //插入
+        insert(value) {
+          if (value != null) {
+            this.heap.push(value)
+            //与父节点对比，如果比父节点小。交换数组位置
+            this.shiftUp(this.heap.length - 1) //拿到最后一个节点
+
+            return true
+          }
+        }
+
+        getParentIndex(index) {
+          return Math.floor((index - 1) / 2)
+        }
+
+        swap(heap, parent, index) {
+          let temp = heap[index]
+          heap[index] = heap[parent]
+          heap[parent] = temp
+        }
+
+        shiftUp(index) {
+          //获取父节点的索引
+          let parent = this.getParentIndex(index)
+          while (
+            index > 0 &&
+            this.compare(this.heap[parent], this.heap[index]) ===
+              treeMap['bigger']
+          ) {
+            //交换位置
+            this.swap(this.heap, parent, index)
+          }
+        }
+
+        size() {
+          return this.heap.length
+        }
+
+        isEmpty() {
+          return this.size() === 0
+        }
+
+        findTarget() {
+          return this.heap[0]
+        }
+        //删除 第一个节点 删除最小元素 
+        //同时核心是把数组最后一个元素放到数组最前面 然后就是向下比较
+        extract() {
+          if (this.isEmpty()) {
+            //没有数据 return
+            return
+          }
+          if (this.size() === 1) {
+            //一个元素
+            return this.heap.shift()
+          }
+          const removed = this.heap[0]
+
+          this.heap[0] = this.heap.pop() //同时把最后一个节点 给到第一个
+
+          //向下比较
+          this.shiftDown(0)
+
+          return removed
+        }
+        //从上往下
+        shiftDown(index) {
+          let current = index
+          const left = this.getLeftIndex(index)
+          const right = this.getRightIndex(index)
+          const size = this.size()
+        //   先比较左边 
+          if (
+            left < size &&
+            this.compare(this.heap[current], this.heap[left]) ===
+              treeMap['bigger']
+          ) {
+            current = left
+          }
+        // 再比较右边  
+          if (
+            right < size &&
+            this.compare(this.heap[current], this.heap[right]) ===
+              treeMap['bigger']
+          ) {
+            current = right
+          }
+        //左右比较就是为了找到最小的 让最小的作为当前
+          while (index !== current) {
+            this.swap(this.heap, index, current)
+            this.shiftDown(current) //递归比较
+          }
+        }
+      }
+
+      //最大堆 最大堆和最小堆的相反的直接继承出现比较方法即可
+    //   class MaxHeap extends MinHeap {
+    //     compare(a, b) {
+    //       if (a === b) {
+    //         return treeMap['equ']
+    //       }
+    //       return a > b ? treeMap['less'] : treeMap['bigger']
+    //     }
+    //   }
+      const heap = new MinHeap()
+    </script>
+  </body>
+</html>

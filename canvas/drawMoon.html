@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* 给画布增加一个阴影和圆角的样式 */
+      canvas {
+        box-shadow: 0px 0px 5px #ccc;
+        border-radius: 8px;
+        background-color: rgba(182, 184, 184, 0.14);
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="600">
+      当前浏览器不支持canvas元素，请升级或更换浏览器！
+    </canvas>
+    <script>
+      // 获取 canvas 元素
+      var canvas = document.getElementById('canvas')
+      // 通过判断getContext方法是否存在来判断浏览器的支持性
+      if (canvas.getContext) {
+        // 获取绘图上下文
+        var ctx = canvas.getContext('2d')
+        let i = 0
+        let j = 0
+        function draw() {
+            ctx.save()
+            i++
+            j++
+          ctx.clearRect(0, 0,  800, 600);
+          ctx.beginPath()
+          ctx.fillStyle = 'yellow'
+          ctx.arc(400, 300, 100, 0, Math.PI * 2)
+          ctx.shadowColor = 'yellow'
+          ctx.shadowBlur = 3
+          ctx.fill()
+          ctx.closePath()
+          ctx.beginPath()
+          ctx.translate(400, 300)
+          ctx.rotate(Math.PI / 180 * i)
+          ctx.fillStyle = 'blue'
+          ctx.arc(200, 0, 25, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.closePath()
+          ctx.beginPath()
+          ctx.translate(200, 0)
+          ctx.rotate(Math.PI / 180 * j)
+          ctx.fillStyle = 'green'
+          ctx.arc(50, 0, 10, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.restore()
+          window.requestAnimationFrame(draw)
+        }
+
+        window.requestAnimationFrame(draw)
+      }
+    </script>
+  </body>
+</html>

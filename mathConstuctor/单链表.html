@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //单链表 有一个一个节点组成 可在任意位置删除 在前在后添加
+      // 头部--》中间1==》 中间2==》结尾==》null
+      class Node {
+        constructor(element) {
+          this.element = element //节点的内容
+          this.next = null //该节点的下一个指向谁
+        }
+      }
+      class LinkedList {
+        constructor() {
+          this.head = null //该链表的头部节点是谁
+          this.count = 0 //记录节点的个数
+        }
+
+        push(element) {
+          //添加方法
+          const node = new Node(element) //创建一个节点
+          if (this.head === null) {
+            //说明之前没有节点
+            this.head = node
+          } else {
+            let current = this.head //保存最开始的头部
+            while (current.next !== null) {
+              //找到最后一个节点
+              current = current.next
+            }
+            current.next = node
+          }
+          this.count++
+        }
+
+        //指定位置删除
+        removeAt(index) {
+          if (index >= 0 && index < this.count) {
+            let current = this.head
+            if (index === 0) {
+              this.head = this.head.next
+            } else {
+              let previous = this.find(index - 1) //找到指定节点的前一个
+              current = previous.next //previous的下一个是当前的节点元素
+              previous.next = current.next //当前的节点前一个节点指向当前节点的下一个 跳过当前节点
+            }
+            this.count--
+            return current.element
+          }
+        }
+
+        //根据数据删除对应的节点
+        remove(element) {
+          //根据数据找到对应的索引
+          const index = this.indexOf(element)
+          return this.removeAt(index)
+        }
+
+        //根据任意位置插入
+        insert(element, index) {
+          if (index >= 0 && index <=this.count) {
+            const node = new Node(element)
+            if (index === 0) {
+              const current = this.head
+              node.next = current
+              this.head = node
+            } else {
+              const previous = this.find(index - 1)
+              const current = previous.next
+              node.next = current
+              previous.next = node
+            }
+            this.count++ 
+          }
+        }
+
+        //根据数据找到对应的索引
+        indexOf(element) {
+          let current = this.head
+          for (let i = 0; i < this.count; i++) {
+            if (this.isEqual(current.element, element)) {
+              return i
+            }
+            current = current.next
+          }
+        }
+
+        isEqual(a, b) {
+          return a === b
+        }
+
+        //根据索引找到指定的节点
+        find(index) {
+          let current = this.head
+          for (let i = 1; i <= index; i++) {
+            current = current.next
+          }
+          return current
+        }
+      }
+
+      const link = new LinkedList() //创建单链表
+    </script>
+  </body>
+</html>

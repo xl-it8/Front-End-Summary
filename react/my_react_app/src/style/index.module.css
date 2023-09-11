@@ -1,0 +1,25 @@
+/*
+样式私有化的处理  防止冲突
+  1.通过内联样式写 不推荐
+  2.css样式表 就是给最外层的定义特殊名字(路径 + 组件) 以后就在这里面写css代码
+    .component-abd {
+        .abc {}
+    }
+  3.CSSModules 只适用于css文件 scss/less失效  xxx.module.css import style from './xxx.module.css'经过webpack编译 混淆处理后变成如下格式
+   style =  {
+        类名:'新的类名'
+     }
+   注意:
+      添加多个类名 需要用到模板字符串 `${style.xxx} ${style.xxx}`
+      css模块中如果不想让某个类名被处理 用:global(类名) {}
+
+  4.不想用这个方式 插件 ReactJSS  解构出 const useStyle = createUseStyles({})
+      
+
+  5.插件 styled-components  是个js文件里写样式
+*/
+
+.dialog {
+    width: 200px;
+    height:300px;
+}

@@ -1,0 +1,14 @@
+
+@import url('./home.css');
+.box {
+  width: 30px;
+  height: 40px;
+  background-color: aqua;
+  background-image: url('../img/mj.png')
+}
+/* /smpommmsmdwp pde */
+
+/* 做兼容性处理 */
+::placeholder { 
+  color: red
+}

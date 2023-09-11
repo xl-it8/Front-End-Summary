@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #root {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 500px;
+        height: 500px;
+        background-color: pink;
+      }
+      #outer {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 300px;
+        height: 300px;
+        background-color: rgb(174, 251, 254);
+      }
+      #inner {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        background-color: rgb(154, 244, 185);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div id="outer">
+        <div id="inner"></div>
+      </div>
+    </div>
+    <script>
+      //点击 和 单击
+      //pc 点击 click  dblclick双击
+      //移动端  单击 click 有300ms延迟 单击第一次300ms没有再次单击触发click事件 有单击就是dblclick 所以没有点击事件 需要touchstart touchmove touchend模拟点击 或者使用 fastClick库
+      const root =document.getElementById('root'),
+            outer = document.getElementById('outer'),
+            inner = document.getElementById('inner')
+      //对于合成事件react借助原生的事件传播机制 冒泡和捕获的情况下以及事件委托形式处理事件 方便事件统一管理并且不会有错乱问题 注意的是 react17之后 都是给rootdom添加委托 冒泡和捕获都做 而其他的创建的事件 只是给创建的元素添加合成事件属性 属性值是绑定的函数
+      outer.onClick = ()=>{console.log('outer 冒泡')}
+      outer.onClickCapture = ()=>{console.log('outer 捕获')}
+
+      inner.onClick = ()=>{console.log('inner 冒泡')}
+      inner.onClickCapture = ()=>{console.log('inner 捕获')}
+
+
+    //   function handleTargetDom (target){ //递归 要有终止条件
+    //      if(!target.parentNode){
+    //         return [] //[html,body,root]
+    //      } 
+    //     return [target].concat(handleTargetDom(target.parentNode))
+    //   }
+
+      function handleTargetDom (target){ //递归 要有终止条件
+         if(!target.parentNode){
+            return [target]
+         }
+         let path = []
+         while(target){
+            path.push(target.parentNode)
+            target = target.parentNode
+         }
+         return path
+      }
+
+      root.addEventListener('click',(event)=>{
+         [...handleTargetDom(event.target)].reverse().forEach(dom => {
+               dom.onClickCapture && dom.onClickCapture()
+       })
+      },true) //捕获
+      root.addEventListener('click',(event)=>{
+        [...handleTargetDom(event.target)].forEach(dom => {
+               dom.onClick && dom.onClick()
+       })
+      }) //冒泡
+    </script>
+  </body>
+</html>

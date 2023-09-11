@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="router">
+      <a href="/">首页</a>
+      <a href="/abort">关于</a>
+      <a href="/person">个人中心</a>
+    </div>
+    <div class="router-box"></div>
+
+    <script>
+      //hash模式
+      //   const box = document.querySelector('.router-box')
+
+      //   const route = [
+      //     {
+      //       path: '/',
+      //       component: '首页',
+      //     },
+      //     {
+      //       path: '/abort',
+      //       component: '关于美好的时间',
+      //     },
+      //     {
+      //       path: '/person',
+      //       component: '小明消失',
+      //     },
+      //   ]
+      //   function routerMath() {
+      //     const path = window.location.hash.substring(1)
+
+      //     route.forEach((item) => {
+      //       if (item.path === path) {
+      //         box.innerHTML = item.component
+      //       }
+      //     })
+      //   }
+
+      //   //监听路由的变化 hash用hashChange
+      //   window.onhashchange = routerMath
+
+      //   //一上来是首页
+      //   location.hash = '/'
+      //   routerMath()
+
+      //  history模式 同时要配合后端
+      const box = document.querySelector('.router-box')
+      router = document.querySelector('.router')
+      const route = [
+        {
+          path: '/',
+          component: '首页',
+        },
+        {
+          path: '/abort',
+          component: '关于美好的时间',
+        },
+        {
+          path: '/person',
+          component: '小明消失',
+        },
+      ]
+
+      //绑定
+      router.onclick = function (e) {
+        e.preventDefault();
+        const target = e.target
+        if(target.tagName = 'A'){
+            history.pushState({},'',target.pathname)
+            routerMath()
+        }
+      }
+
+      function routerMath() {
+        const path = window.location.pathname
+        route.forEach((item) => {
+          if (item.path === path) {
+            box.innerHTML = item.component
+          }
+        })
+      }
+
+      //监听 onpopstate只能监听前进后退 back forward go 变化不能监听pushState和replceState
+      window.onpopstate = routerMath
+      history.pushState({},'','/')
+    //   window.location.pathname = '/'这种方式会导致页面刷新不能使用
+      routerMath()
+    </script>
+  </body>
+</html>

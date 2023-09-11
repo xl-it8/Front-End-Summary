@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      canvas {
+        display: block;
+        margin: 20px auto;
+        box-shadow: 0px 0px 5px #ccc;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 行内元素  左右padding margin生效 上下不生效-->
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+      const data = [
+        {
+          title: '20岁以下',
+          number: 25,
+        },
+        {
+          title: '20~30岁',
+          number: 70,
+        },
+        {
+          title: '30岁以上',
+          number: 5,
+        },
+      ]
+      class Pie {
+        x0
+        y0
+        ctx
+        radius = 150
+        extraDistance = 30
+        leftSpace = 20
+        topSpace = 0
+        Space = 20
+        rectW = 30
+        rectH = 20
+        init(data) {
+          const canvas = document.getElementById('canvas')
+          this.ctx = canvas.getContext('2d')
+          //获取中心点
+          this.x0 = canvas.width / 2 + 30
+          this.y0 = canvas.height / 2
+          let startAngle = 0
+          let endAngle = 0
+          this.transformAngle(data)
+          data.forEach((item, index) => {
+            this.ctx.save()
+            endAngle += item.angle
+            this.ctx.beginPath() //开辟新路径
+            this.ctx.moveTo(this.x0, this.y0)
+            this.ctx.arc(this.x0, this.y0, this.radius, startAngle, endAngle)
+            this.ctx.strokeStyle = this.ctx.fillStyle = this.handleRandomColor()
+            this.ctx.fill()
+            this.ctx.save()
+            this.ctx.save()
+            this.ctx.closePath() //会合并路径
+            this.drawLine(item, startAngle, endAngle)
+            this.drawLegend(item, index)
+            startAngle = endAngle
+          })
+        }
+
+        handleRandomColor() {
+          const r = Math.floor(Math.random() * 256)
+          const g = Math.floor(Math.random() * 256)
+          const b = Math.floor(Math.random() * 256)
+          return `rgba(${r},${g},${b})`
+        }
+        //处理成弧度
+        transformAngle(data) {
+          const total = data.reduce((pre, cur) => {
+            return (pre += cur.number)
+          }, 0)
+          data.forEach((item) => {
+            item.angle = (item.number / total) * 2 * Math.PI
+          })
+        }
+        //2π弧度=360° π = Math.PI
+        drawLine(item, startAngle, endAngle) {
+          this.ctx.beginPath() //开辟新路径
+          const lineX =
+            Math.cos(item.angle / 2 + startAngle) *
+            (this.radius + this.extraDistance)
+          const lineY =
+            Math.sin(item.angle / 2 + startAngle) *
+            (this.radius + this.extraDistance)
+          this.ctx.font = '25px serif' // 设置文案大小和字体
+          const textWidth = this.ctx.measureText(item.title).width
+          let newX = this.x0 + lineX
+          let newY = this.y0 + lineY
+          this.ctx.moveTo(this.x0, this.y0)
+          this.ctx.lineTo(newX, newY)
+          this.ctx.restore()
+          if (newX > this.x0) {
+            this.ctx.lineTo(newX + textWidth / 2, newY)
+            this.ctx.textAlign = 'left'
+          } else {
+            this.ctx.lineTo(newX - textWidth / 2, newY)
+            this.ctx.textAlign = 'right' //针对纵轴
+          }
+          this.ctx.stroke()
+          this.ctx.textBaseLine = 'bottom' //针对横轴
+          this.ctx.fillText(item.title, newX, newY)
+          this.ctx.closePath() //会合并路径
+        }
+
+        drawLegend(item, index) {
+          this.ctx.beginPath()
+          this.ctx.restore()
+          this.topSpace = this.Space * (index + 1) + this.rectH * index
+          this.ctx.fillRect(
+            this.leftSpace,
+            this.topSpace,
+            this.rectW,
+            this.rectH
+          )
+          this.ctx.textBaseline = 'middle'
+          this.ctx.fillText(
+            item.title,
+            this.leftSpace + this.rectW + this.Space,
+            this.topSpace + this.rectH / 2
+          )
+          this.ctx.closePath() //会合并路径
+          this.ctx.restore()
+        }
+      }
+      const p1 = new Pie()
+      p1.init(data)
+    </script>
+  </body>
+</html>

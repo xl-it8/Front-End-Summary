@@ -1,0 +1,35 @@
+// .component_navBar {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100px;
+//   z-index: 1000;
+//   display: flex;
+//   align-items: center;
+//   border-bottom: 1px solid #ccc;
+//   box-shadow: 0 1px 1px 1px #F5F6F5;
+//   background-color: #fff;
+//   .arrow  {
+//     width: 40px;
+//   }
+//   .navBar_content {
+//     flex: 1;
+//     text-align: center;
+//     font-size: 30px;
+//     font-weight: 700;
+//   }
+// }
+
+.navbar-again-box {
+  padding: 0 20px;
+  height: 80px;
+
+  .adm-nav-bar-title {
+      font-size: 32px;
+  }
+
+  .adm-nav-bar-back-arrow {
+      font-size: 36px;
+  }
+}

@@ -1,0 +1,208 @@
+// 定义公共部分的类
+//前提 需要在html文件加 meta 使视口宽度等于设备宽度 同时注意设计稿的尺寸 二倍图
+//rem 是相对于html根字体大小
+// rem适配 amfe-flexible 不同设备尺寸不同的rem基准值  以及 结合px转rem postcss-pxtorem（就可以直接写px单位 可以不需要vscode插件的px-to-rem）  
+//375--》 37.5 amfe-flexible 
+//1rem = 37.5px   40px --> 1.066rem
+// vw适配 视口分成100份 以及结合 postcss-px-to-viewport(px自动转为vw)
+//375--》 3.75
+// 1rem = 3.75px  1rem = 50px
+// @media (max-width:720px){
+//     $fontSize:37.5px;
+//     html {
+//         font-size: $fontSize;
+//     }
+
+// }
+// @media (min-width:920px){
+//     $fontSize:70px;
+//     html {
+//         font-size: $fontSize;
+//     }
+// }
+
+// $fontSize:13px;
+html {
+    padding-top: 39.71px;
+}
+
+//下面css定义的方法 属于叫样式工具的做法
+// 颜色color  包括字体 背景
+$color:(
+  'primary':#db9e3f,
+  'white':#fff,
+  'white-1':#fcfcfc,
+  'light':#f9f9f9,
+  'light-1':#EDEDED,
+  'gray':#999,
+  'gray-1':#666,
+  'dark-1':#343446,
+  'dark':#222,
+  'black':#000,
+);
+
+@each $keyColor,$colorValue in $color {
+    .text-#{$keyColor} {
+        color:$colorValue;
+    }
+}
+
+@each $keyColor,$colorValue in $color {
+    .bg-#{$keyColor} {
+        background-color:$colorValue;
+    }
+}
+
+//text align
+@each $var in (left,center,right) {
+     .text-#{$var} {
+        text-align: $var;
+     }
+}
+
+
+// 字体大小fontSize  
+$size:(
+    xxs:0.213, //8px  8:37.5 = x:40
+    xs:0.2667,  //10px
+    sm:.32, //12px
+    md:0.34667, //13px
+    lg:0.373334, //14px
+    xl:0.42667, //16px
+);
+$base-font-size:1rem;
+@each $sizeKey,$sizeVal in $size {
+     .fs-#{$sizeKey} {
+        font-size: $sizeVal * $base-font-size;
+     }
+}
+
+// flex布局定义
+ 
+.d-flex {
+    display:flex;
+}
+
+.flex-column {
+   flex-direction: column;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+ }
+
+.flex-1 {
+    flex:1;
+}
+.flex-grow-1 {
+    flex-grow:1;
+}
+$flex-jc:(
+    start: flex-start,
+    end: flex-end,
+    center: center,
+    between: space-between,
+    around: space-around,
+);
+
+@each $key,$value in $flex-jc {
+  .jc-#{$key} {
+    justify-content: $value;
+  }
+};
+
+$flex-ai:(
+    start: flex-start,
+    end: flex-end,
+    center: center,
+    stretch: stretch,
+);
+
+@each $key,$value in $flex-ai {
+    .ai-#{$key} {
+      align-items: $value;
+    }
+  }
+
+  //图片宽度高度
+  .img-w {
+    width: 100%
+  }
+
+  //固定
+  .fix {
+    position: fixed;
+    left:0;
+    top:0;
+    z-index:999;
+  }
+// 文本溢出省略
+.text-ellipsis {
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+//边框
+.newsName {
+  border: 1px solid red;
+  border-radius: 2px;
+  padding: 1px;
+}
+.border-bottom {
+  border-bottom: 1px solid map-get($color,'light-1');
+}
+//按钮
+.btn {
+  background-color: map-get($color,'white-1');
+  border-radius: 2px;
+  .icon {
+    margin-right: 3px;
+    width:20px;
+    height:20px;
+    color: map-get($color,'primary');
+  }
+}
+
+//边距定义 spacing
+$base-spacing-size: 0.35rem; //1rem=37.5px  1rem=13px
+// ml-1  ==> margin-left: 
+$spacing-type:(m:'margin',p:'padding');
+$spacing-direction:(t:'top',r:'right',b:'bottom',l:'left');
+$spacing-size:(
+    0:0,
+    1:0.25,  //3.25px
+    2:0.5, //6.5px
+    3:1,  //13px
+    4:1.5, //19.5px
+    5:3 //39px
+    );
+
+@each $typeKey,$typeVal in $spacing-type{
+ //水平x垂直y  mx-0 ==》 margin-left:0 margin-right:0
+    @each $sizeKey,$sizeVal in $spacing-size {
+            .#{$typeKey}x-#{$sizeKey} {
+              #{$typeVal}-left:$sizeVal*$base-spacing-size;
+              #{$typeVal}-right:$sizeVal*$base-spacing-size;
+            }
+            .#{$typeKey}y-#{$sizeKey} {
+                #{$typeVal}-top:$sizeVal*$base-spacing-size;
+                #{$typeVal}-bottom:$sizeVal*$base-spacing-size;
+            }
+    }
+  //mt-0 ==> margin-top:0
+    @each $direKey,$direVal in $spacing-direction {
+        @each $sizeKey,$sizeVal in $spacing-size {
+             .#{$typeKey}#{$direKey}-#{$sizeKey} {
+                #{$typeVal}-#{$direVal}:$sizeVal *$base-spacing-size ;
+             }
+        }
+    }
+    //1. m-0 ==> margin:0
+    @each $sizeKey,$sizeVal in $spacing-size {
+        .#{$typeKey}-#{$sizeKey} {
+            #{$typeVal}: $sizeVal * $base-spacing-size;
+        }
+     }
+}
+

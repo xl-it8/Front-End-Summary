@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        html,body{
+            padding:0;
+            margin:0;
+        }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="900" height="900"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas')
+      const ctx = canvas.getContext('2d')
+      //径向渐变
+      //   const gradient = ctx.createLinearGradient(10,10,100,10)
+      //   gradient.addColorStop(0,'red')
+      //   gradient.addColorStop(1,'green')
+      //   ctx.beginPath()
+      //   ctx.fillStyle = gradient
+      //   ctx.fillRect(10,10,100,100)
+      //算术运算符 比较运算符 位运算符 >>> <<< & | 逻辑运算符 赋值运算符
+      //textBaseLine 文字对齐的基线
+      ctx.font = '25px serif' // 设置文案大小和字体
+      ctx.strokeStyle = 'red'
+      const baselines = [
+        'top',
+        'hanging',
+        'middle',
+        'alphabetic',
+        'ideographic',
+        'bottom',
+      ]
+      baselines.forEach(function (baseline, index) {
+        ctx.textBaseline = baseline
+        let y = 60 + index * 60
+        ctx.beginPath()
+        ctx.moveTo(10, y + 0.5)
+        ctx.lineTo(500, y + 0.5)
+        ctx.stroke()
+        ctx.fillText(
+          'Hi Canvas, Welcome to my world! (' + baseline + ')',
+          10,
+          y
+        )
+      })
+
+      //高级的  保存和恢复  save() restore() //状态保存到栈中
+      //移动 缩放 旋转
+      // 合成 globalCompositionOperate 有好多 合并的方式
+      //裁剪 clip() 可以path2D指定裁剪的路径
+      // 动画
+    </script>
+  </body>
+</html>

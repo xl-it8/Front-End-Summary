@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="file" value="" />
+    <button>点击上传</button>
+    <script>
+      const ipt = document.querySelector("input");
+      const btn = document.querySelector("button");
+      let uploadSize = 0;
+      let chunkSize = 3 * 1024;
+      btn.addEventListener("click", () => {
+        const file = ipt.files[0];
+        const size = file.size;
+        console.log(size);
+        while (uploadSize < size) {
+          console.log(uploadSize);
+          let chunkFile = file.slice(uploadSize, chunkSize); //blob
+          uploadSize += chunkSize;
+        }
+      });
+    </script>
+    <script>
+      // var arr = [1, 2, 3, 4, 5, 6, 7]; //n+1 =n-1+n
+      // const newArr = arr.map((item, index) => {
+      //   return index === 0
+      //     ? item
+      //     : arr.slice(0, index + 1).reduce((p, c) => p + c, 0);
+      // });
+      // console.log(newArr);
+
+      // 返回字符串中最长的连续
+      // 重复字母mmmiijjjkkkkkkssptr返回"kkkkkk"
+      const str = "mmmiijjjkkkkkkssptr";
+      const obj = {};
+      let o = 1;
+      for (var i = 0; i < str.length; i++) {
+        if (str[i] !== str[i - 1]) {
+          obj[str[i]] = 1;
+          o = 1;
+        } else {
+          obj[str[i]] = ++o;
+        }
+      }
+      let max = 0;
+      let char;
+      for (var i in obj) {
+        if (max < obj[i]) {
+          max = obj[i];
+          char = i;
+        }
+      }
+      console.log(char.repeat(max)); // function getNum(str) {
+
+      // }
+      // console.log(getNum());
+    </script>
+  </body>
+</html>

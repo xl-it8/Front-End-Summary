@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        a: 1,
+        b: 2,
+        c: 3,
+      }
+
+      // for( let i of obj){ //obj is not iterable
+      //     console.log(i)
+      // }
+      //迭代器  具有迭代器规范的 就可以被for of遍历枚举  迭代器返回{done: xxx, value: xxx}
+      //迭代器执行顺序 1. 先对某对象查看是否有迭代器有则执行 创建itor迭代器对象(对象必须有next方法) 2. 迭代器执行next方法 得到{done:xxx, value:xxx} 再把value值给for of 的遍历值 3.利用done判断是否结束遍历
+      // 具有迭代器的有 1. 部分伪数组 arguments NodeLise节点 Set/Map ...  2. 数组  ...
+
+
+      Object.prototype[Symbol.iterator] = function values() {
+        const eleArr = Reflect.ownKeys(this) //['','','',...]
+        let index = -1 //记录迭代器次数
+
+        //闭包
+        return {
+          next() {
+            index++
+            if (index >= eleArr.length) {
+              return {
+                done: true,
+                value: undefined,
+              }
+            }
+            let key = eleArr[index]
+            return {
+              done: false,
+              value: obj[key],
+            }
+          },
+        }
+      }
+          //   for (let i of obj) { //迭代器执行顺序
+    //     console.log(i)
+    //   }
+    //for of内部执行操作如下
+     const itor = obj[Symbol.iterator]()
+     console.log( itor.next())
+     console.log( itor.next())
+     console.log( itor.next())
+     console.log( itor.next())
+
+    </script>
+  </body>
+</html>

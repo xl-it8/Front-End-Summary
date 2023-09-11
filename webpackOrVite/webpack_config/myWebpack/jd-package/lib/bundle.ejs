@@ -1,0 +1,6 @@
+<% for(let key in modules) {%>
+    "<&-key%>"
+    (function(module, exports ,__webpack__require__)){
+        eval(`<%-modules[key]%>`)
+    }
+<%}%>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>canvas - 事件</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas
+      id="canvas"
+      width="1000"
+      height="500"
+      tabindex="0"
+      style="box-shadow: 0px 0px 5px #ccc; border-radius: 8px"
+    >
+      当前浏览器不支持canvas元素，请升级或更换浏览器！
+    </canvas>
+    <img id="img" src="" />
+    <button>保存图片</button>
+    <script>
+      // 获取Canvas
+      const canvas = document.getElementById('canvas')
+      const Btn = document.getElementsByTagName('button')[0]
+      var Img = document.getElementById('img')
+      const width = canvas.width
+      const height = canvas.height
+      // 获取绘制上下文
+      const ctx = canvas.getContext('2d')
+      const images = [
+        {
+          name: '白月魁',
+          url: '../images/bailaoban.jpg',
+        },
+        {
+          name: '花朵',
+          url: './images/花朵.webp',
+        },
+        {
+          name: '头像',
+          url: './images/头像.webp',
+        },
+        {
+          name: '下载',
+          url: './images/下载.jpg',
+        },
+        {
+          name: 'bjt',
+          url: './images/bjt.webp',
+        },
+      ]
+
+      let clickCoordinate = {}
+      let imagesData = []
+      let target = null
+
+      images.forEach((item) => {
+        // 创建image元素
+        const image = new Image()
+        image.src = item.url
+        const name = item.name
+        image.onload = () => {
+          //图片的onload事件就是图片地址存在且加载完毕  onerror错误为调用该方法
+          // 控制宽度为200（等宽）
+          const w = 200
+          // 高度按宽度200的比例缩放
+          const h = (200 / image.width) * image.height
+          const x = Math.random() * (width - w)
+          const y = Math.random() * (height - h)
+          const imageObj = { image, name, x, y, w, h }
+          imagesData.push(imageObj)
+          draw(imageObj)
+        }
+      })
+
+      // 渲染图片
+      function draw(imageObj) {
+        ctx.drawImage(
+          //代替原生的图片插入页面
+          imageObj.image,
+          imageObj.x,
+          imageObj.y,
+          imageObj.w,
+          imageObj.h
+        )
+      }
+
+      //创建事件
+      canvas.addEventListener('mousedown', mousedownFn, false)
+      // 为按钮添加点击事件
+      Btn.addEventListener('click', clickFn, false)
+      function clickFn() {
+        const url = canvas.toDataURL() //转换为base64格式地址
+        Img.src = url
+        let arr = url.split(',')
+        let mime = arr[0].match(/:(.*?);/)[1] // 此处得到的为文件类型
+        let bstr = atob(arr[1]) // 此处将base64解码
+        let n = bstr.length
+        let u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
+        }
+        console.log(u8arr)
+        // 通过以下方式将以上变量生成文件对象，三个参数分别为文件内容、文件名、文件类型
+        let file = new File([u8arr], 'filename', { type: mime })
+        // 将文件对象通过a标签下载
+        let aDom = document.createElement('a') // 创建一个 a 标签
+        aDom.download = file.name // 设置文件名
+        let href = URL.createObjectURL(file) // 将file对象转成 UTF-16 字符串 
+        console.log(file)
+        console.log(href)
+        aDom.href = href // 放入href
+        document.body.appendChild(aDom) // 将a标签插入 body
+        aDom.click() // 触发 a 标签的点击
+        document.body.removeChild(aDom) // 移除刚才插入的 a 标签
+        URL.revokeObjectURL(href) // 释放刚才生成的 UTF-16 字符串
+      }
+      function mousedownFn(e) {
+        //按下
+        clickCoordinate.X = e.pageX - canvas.offsetLeft
+        clickCoordinate.Y = e.pageY - canvas.offsetTop
+
+        // 判断选中的元素是哪一个
+        checkElement()
+        // 未选中元素则return
+        if (target === undefined) return
+        canvas.addEventListener('mousemove', mousemoveFn, false)
+        canvas.addEventListener('mouseup', mouseupFn, false)
+      }
+    
+      function checkElement() {
+        // console.log(canvas.offsetX)
+        const x = clickCoordinate.X
+        const y = clickCoordinate.Y
+        imagesData.forEach((img) => {
+          if (
+            x >= img.x &&
+            x <= img.x + img.w &&
+            y >= img.y &&
+            y <= img.y + img.h
+          ) {
+            target = img
+          }
+        })
+      }
+      function mousemoveFn(e) {
+        const moveX = e.pageX
+        const moveY = e.pageY
+        target.x = target.x + (moveX - clickCoordinate.X)
+        target.y = target.y + (moveY - clickCoordinate.Y)
+        // // 清空画布
+        ctx.clearRect(0, 0, width, height)
+        // // 清空画布以后重新绘制
+        imagesData.forEach((i) => draw(i))
+        // // 赋值
+        clickCoordinate.x = moveX
+        clickCoordinate.y = moveY
+      }
+      function mouseupFn() {
+        // 鼠标抬起以后移除事件
+        canvas.removeEventListener('mousemove', mousemoveFn, false)
+        canvas.removeEventListener('mouseup', mouseupFn, false)
+        // 销毁选中元素
+        target = undefined
+      }
+    </script>
+  </body>
+</html>

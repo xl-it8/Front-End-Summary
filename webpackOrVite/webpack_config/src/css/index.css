@@ -1,0 +1,12 @@
+.hello {
+    /* 十六进制借助 postcss 来处理 以及属性前缀加兼容浏览器的 */
+    /* color: #12345678; 转为 color: rgba(18,52,86,0.47059);  
+        transition: all .3s; 会添加前缀
+    */
+    color: #12345678;   
+    background-color: red;
+    width:30px;
+    height:30px;
+    transition: all .3s;
+    display: flex;
+}

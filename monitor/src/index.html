@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>monitor SDK</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <!-- <script src="/index.js" type="text/javascript"></script> -->
+  </head>
+  <body>
+    <!--<div
+      class="pointer"
+      style="width: 300px; height: 30px; margin-left: 30px; margin-top: 10px"
+    >
+      点位置
+    </div> -->
+    <div class="contaniner" style="background: blue;width:1100px;height:300px">
+      <div class="content">
+        <!-- <button type="button" onclick="errorClick()">点击触发js错误</button>
+        <button type="button" onclick="promiseErrorClick()">
+          点击触发promise错误
+        </button>
+        <button onclick="successReq()">请求1</button>
+        <button onclick="errorReq()">请求2</button> -->
+        <!-- 资源加载错误 -->
+        <!-- <img src="https://test.cn/345.png">-->
+      </div>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        const content = document.getElementsByClassName('content')[0]
+        let h1 = document.createElement('h1')
+        h1.innerHTML = 'sdk监控'
+        h1.setAttribute('elementtiming', 'meaningful')
+        content.appendChild(h1)
+      }, 3000)
+      //统计页面的加载时间
+      //   window.onload = function () {
+      //     const span = document.createElement('span')
+      //     span.innerHTML = 'nihap'
+      //     const content = document.getElementsByClassName('content')[0]
+      //     content.appendChild(span)
+      //   }
+      //console.log(document.elementFromPoint(31, 11))
+      // document.addEventListener('click',function(e){
+      //    console.log(1)
+      // },{
+      //     capture: true,
+      //     passive:true
+      // }
+      // ) //默认是冒泡
+      //             try {
+      //      let a = undefined;
+      //      if (a.length) {
+      //        console.log('111');
+      //      }
+      //    } catch (e) {
+      //      console.log('捕获到异常：', e);
+      //   }
+      //     try {
+      //   const notdefined,
+      // } catch(e) {
+      //   console.log('捕获不到异常：', 'Uncaught SyntaxError');
+      // }
+      //js错误
+
+      function errorClick() {
+        window.someVar.error = 'error'
+      }
+
+      //promise错误
+      function promiseErrorClick() {
+        new Promise((resolve, reject) => {
+          window.someVar.error = 'error'
+          // reject('error')
+        }).then((e) => {
+          console.log(e)
+        })
+      }
+
+      function successReq() {
+        const xhr = new XMLHttpRequest()
+        xhr.open('get', '/success')
+        xhr.send()
+        xhr.onload = () => {
+          console.log(xhr.responseText)
+        }
+      }
+
+      function errorReq() {
+        const xhr = new XMLHttpRequest()
+        xhr.open('post', '/error')
+        xhr.send('错误')
+        xhr.onload = () => {
+          console.log(xhr.responseText)
+        }
+        xhr.onerror = () => {
+          console.log(xhr.responseText)
+        }
+      }
+    </script>
+  </body>
+</html>

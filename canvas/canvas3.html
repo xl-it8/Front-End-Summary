@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="900" height="900"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas')
+      const ctx = canvas.getContext('2d')
+      let i = 0
+      let flag = true
+      // ctx.fillStyle = 'blue'
+      // ctx.shadowColor = 'yellow'
+      // ctx.shadowBlur = 50
+      // // ctx.shadowOffset = 2
+      // // ctx.shadowOffsetY = 2
+      // ctx.rect(100, 100, 100,100)
+      // ctx.fill()
+      function draw() {
+        if (flag) {
+          i += 10
+          if (i > 800) {
+            flag = false
+          }
+        } else {
+          i -= 10
+          if (i < 100) {
+            flag = true
+          }
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.beginPath()
+        ctx.fillStyle = 'blue'
+        ctx.shadowColor = 'yellow'
+        ctx.shadowBlur = 33
+
+        ctx.rect(i, 100, 100, 100)
+        ctx.save()
+        ctx.fill()
+        ctx.beginPath()
+        ctx.restore()
+        // ctx.fillStyle = 'yellow'
+        ctx.rect(i, 300, 100, 100)
+        ctx.fill()
+        window.requestAnimationFrame(draw)
+      }
+      window.requestAnimationFrame(draw)
+      // ctx.translate(100, 100)
+      // ctx.strokeStyle = 'blue' //描边颜色
+      // ctx.fillStyle = 'red'
+      // ctx.strokeRect(0, 0, 200, 200)
+      // ctx.fillRect(0, 0, 200, 200)
+      //   ctx.stroke()
+      //   ctx.fill()
+      //   ctx.globalCompositionOperation = 'destination-over'
+      //   ctx.fillStyle = 'red'
+      //   ctx.save() // 保存状态
+      //   ctx.fillRect(10, 10, 300, 100)
+      //   ctx.save() // 保存状态
+      //   ctx.fillRect(10, 10, 400, 100)
+      //   ctx.restore() // 还原到上次保存的状态
+      //   ctx.fillRect(10, 10, 500, 100)
+    </script>
+  </body>
+</html>

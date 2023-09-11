@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function fn() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            reject({ err: '错误' })
+          }, 1000)
+        })
+      }
+      async function fn1() {
+        try {
+          throw new Error('3')
+          // const res = await fn()
+          // console.log(res)
+        } catch (e) {
+          console.log(e)
+        }
+      }
+      fn1()
+      // console.log(
+      //   new Promise((resolve) => {
+      //     resolve(3)
+      //   })
+      //     .then(() => {
+      //       return new Promise((resolve, reject) => {
+      //         reject('错误')
+      //       })
+      //     })
+      //     .then((res) => {
+      //       console.log(res)
+      //     })
+      //     .catch((re) => {
+      //       console.log(re)
+      //     })
+      // )
+
+      /*
+      
+      
+      
+      */
+    </script>
+  </body>
+</html>

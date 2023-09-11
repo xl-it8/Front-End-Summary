@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" />
+    <script>
+      const ipt = document.querySelector('input')
+      // ipt.oninput = debounce((e) => {
+      //   console.log(e)
+      // }, 1000)
+      //   function debounce(fn, delay) {
+      //     let timer = null
+      //     return function () {
+      //       clearTimeout(timer)
+      //       timer = setTimeout(() => {
+      //         console.log(this)
+      //         console.log(arguments)
+      //         fn.apply(this, arguments)
+      //       }, delay)
+      //     }
+      //   }
+      // function thor(fn, delay) {
+      //   let open = true
+      //   return function () {
+      //     if (open) {
+      //       setTimeout(() => {
+      //         fn.apply(this, arguments)
+      //         open = true
+      //       }, delay)
+      //     }
+      //     open = false
+      //   }
+      // }
+      console.log(a)
+      var a = 1
+      function bb() {}
+      //事件发布与订阅
+      class EventEmitter {
+        constructor() {
+          this.cache = {}
+        }
+        on(name, fn) {
+          //订阅收集两个函数
+          if (this.cache[name]) {
+            this.cache[name].push(fn)
+          } else {
+            this.cache[name] = [fn]
+          }
+        }
+        off(name, fn) {
+          let tasks = this.cache[name]
+          if (tasks) {
+            const index = tasks.findIndex((f) => f === fn || f.callback === fn)
+            if (index >= 0) {
+              tasks.splice(index, 1)
+            }
+          }
+        }
+        emit(name, once = false, ...args) {
+          if (this.cache[name]) {
+            // 创建副本，如果回调函数内继续注册相同事件，会造成死循环
+            let tasks = this.cache[name].slice()
+            for (let fn of tasks) {
+              fn(...args)
+            }
+            if (once) {
+              delete this.cache[name]
+            }
+          }
+        }
+      }
+
+      // 测试
+      let eventBus = new EventEmitter()
+      let fn1 = function (name, age) {
+        console.log(`${name} ${age}`)
+      }
+      let fn2 = function (name, age) {
+        console.log(`hello, ${name} ${age}`)
+      }
+      eventBus.on('aaa', fn1)
+      eventBus.on('aaa', fn2) //订阅事件
+      eventBus.emit('aaa', false, '布兰', 12) //发布事件
+      // '布兰 12'
+      // 'hello, 布兰 12'
+      //将函数 fn 的执行上下文改为 obj，返回 fn 执行后的值
+      function fn3(a) {
+        return a
+      }
+      //eval内置方法
+      console.log(eval('2+2'))
+      console.log(eval('fn3(4)'))
+    </script>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //fn.__proto__ => GeneratorFunction.prototype
+      //   const fn = function* fn(){
+      //     console.log('xx')
+      //     const y = yield 2
+      //     console.log('xx')
+      //     const s = yield 3
+      //   }
+
+      // const itor = fn() 调用不执行 返回生成器实例 具有迭代器功能
+      //itor.__proto__ ==> Generator.prototype => Object.ptototype
+      /*
+         三个常用方法 
+           1. itor.throw()错误停止
+           2. itor.return() 停止
+           3. itor.next()
+       */
+      //   console.log(itor)
+      //   itor.next() //{done: false, value: 2}
+      //   itor.next() //{done: false, value: 3}
+      //   itor.next() //{done: true, value: undefinded}
+
+      //await 原理 结合 promise和 Generator
+
+      //需求 分别打印 @@1  @@2 @@3 在1/2/3秒之后 同步
+
+      const delay = (interval = 1000) => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve('@@' + interval)
+          }, interval)
+        })
+      }
+      //方法一
+      //   delay()
+      //     .then((value) => {
+      //       console.log(value)
+      //       return delay(2000)
+      //     })
+      //     .then((value) => {
+      //       console.log(value)
+      //       return delay(3000)
+      //     })
+      //     .then((value) => {
+      //       console.log(value)
+      //     })
+      //     .catch((reason) => {
+      //       console.log(reason)
+      //     })
+      //方法二
+      //   const fn = function* fn() {
+      //     const y = yield delay()
+      //     console.log(y)
+      //     const s = yield delay(2000)
+      //     console.log(s)
+      //     const z = yield delay(3000)
+      //     console.log(z)
+      //   }
+
+      //   const itor = fn()
+      //   const { done, value } = itor.next()
+      //   value.then((v) => {
+      //     const { done, value } = itor.next(v)
+      //     value.then((v) => {
+      //       const { done, value } = itor.next(v)
+      //       value.then((v) => {
+      //         const { done, value } = itor.next(v)
+      //       })
+      //     })
+      //   })
+
+      // 方法二 利用递归处理
+      //   const fn = function* fn() {
+      //     const y = yield delay()
+      //     console.log(y)
+      //     const s = yield delay(2000)
+      //     console.log(s)
+      //     const z = yield delay(3000)
+      //     console.log(z)
+      //   }
+
+      const asyncFunction = (fn, ...params) => {
+        const itor = fn(...params) //创建生成器
+        const next = (v) => {
+          let { done, value } = itor.next(v)
+          if (done) return //结束
+          if (!(value instanceof Promise)) value = Promise.resolve(value) //不是promise就变成promise
+          value.then((res) => {
+            next(res)
+          })
+        }
+        next()
+      }
+      asyncFunction(
+        function* fn(x, y) {
+          var res = yield x + y
+          console.log(res)
+          var res2 = yield res + 3
+          console.log(res2)
+        },
+        2,
+        3
+      )
+      //方法三
+      //  (async ()=>{
+      //      const res = await delay()
+      //      console.log(res)
+      //      const res2 = await delay(2000)
+      //      console.log(res2)
+      //      const res3 = await delay(3000)
+      //      console.log(res3)
+      //  })()
+    </script>
+  </body>
+</html>

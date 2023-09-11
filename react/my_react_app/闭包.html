@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        // 三步骤  1. 处理声明 2.变量名重复检查 3.初始赋值
+        // outer 始终指向创建对象的scope  scope指向创建该对象时执行上下文栈栈顶的上下文
+        // 栈弹出 本质就是栈中的地址销毁 不在指向堆中的那个对象 这样后期如果没有被引用就会被垃圾回收机制回收 但是如果是闭包 虽然栈弹出地址没了 当还会被其他引起那堆中还会保存下来 相当于小背包 
+      function a() {
+        c()
+        function c(){
+            console.log('c')
+        }
+        let e = 3
+        return function d(){
+            console.log(e)
+        }
+     
+      }
+
+      const c = a()
+    </script>
+  </body>
+</html>

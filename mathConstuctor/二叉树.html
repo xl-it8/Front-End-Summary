@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //二叉树 最多一个节点有两个分支叉 根节点就一个 并且注意比较大小 小于的会放在左边 大于的放在右边 意味着 右边的永远比左边的树大  比如 10为根节点 9会在根节点左边 11在在根节点右边 8会在9的左边 12会在11的右边
+      //字典映射
+      const treeMap = {
+        less: -1,
+        bigger: 1,
+        equ: 0,
+      }
+      class TreeNode {
+        constructor(element) {
+          this.element = element
+          this.left = null
+          this.right = null
+        }
+      }
+
+      class BinaryTree {
+        constructor(element) {
+          this.root = null
+        }
+
+        compare(a, b) {
+          if (a === b) {
+            return treeMap['equ']
+          }
+          return a < b ? treeMap['less'] : treeMap['bigger']
+        }
+        handle(root, element) {
+          if (this.compare(element, root.element) === -1) {
+            //比较小于节点
+            if (!root.left) {
+              root.left = new TreeNode(element)
+            } else {
+              this.handle(root.left, element)
+            }
+          } else {
+            //比较小于节点
+            if (!root.right) {
+              root.right = new TreeNode(element)
+            } else {
+              this.handle(root.right, element)
+            }
+          }
+        }
+        //二叉树插入
+        insert(element) {
+          if (!this.root) {
+            this.root = new TreeNode(element)
+          } else {
+            this.handle(this.root, element)
+          }
+        }
+
+        //遍历
+        //中序遍历 从小到大查询 涉及到执行上下文栈 函数执行上下文 出栈 后进先出
+        inOrderMap(callback) {
+          this.inOrderMapNode(this.root, callback)
+        }
+
+        inOrderMapNode(node, callback) {
+          if (node) {
+            this.inOrderMapNode(this.node.left, callback) //先打印左边部分的 先打印最后的内容
+            callback(node.element)
+            this.inOrderMapNode(this.node.right, callback)
+          }
+        }
+        //先序遍历 从根节点查找
+        preOrderMapNode(node, callback) {
+          if (node) {
+            callback(node.element)
+            this.preOrderMapNode(this.node.left, callback)
+            this.preOrderMapNode(this.node.right, callback)
+          }
+        }
+        //后序遍历 从两个子节点查找到根节点
+        lastOrderMapNode(node, callback) {
+          if (node) {
+            this.lastOrderMapNode(this.node.left, callback)
+            this.lastOrderMapNode(this.node.right, callback)
+            callback(node.element)
+          }
+        }
+
+        //查找
+        //最小
+        min() {
+          return this.minNode(this.root)
+        }
+
+        minNode(node) {
+          while (node && node.left) {
+            node = node.left
+          }
+          return node
+        }
+
+        //最大
+        max() {
+          this.maxNode(this.root)
+        }
+
+        maxNode(node) {
+          while (node && node.right) {
+            node = node.right
+          }
+          return node
+        }
+
+        //查找某一个
+        search(element) {
+          return this.searchNode(this.root, element)
+        }
+        searchNode(node, element) {
+          if (!node) {
+            return false
+          }
+          if (this.compare(element, node.element) === -1) {
+            return this.searchNode(node.left, element)
+          } else if (this.compare(element, node.element) === 1) {
+            return this.searchNode(node.right, element)
+          } else {
+            return true
+          }
+        }
+
+        //删除
+        remove(element) {
+          this.root = this.removeNode(this.root, element)
+        }
+        removeNode(node, element) {
+          if (!node) {
+            return null
+          }
+          if (this.compare(element, node.element) === -1) {
+            node.left = this.removeNode(node.left, element)
+            return node
+          } else if (this.compare(element, node.element) === 1) {
+            node.right = this.removeNode(node.right, element)
+            return node
+          } else {
+            //删除的节点是没有子节点的情况
+            if (node.left === null && node.right === null) {
+              node = null
+              return node
+            }
+            //删除的节点是有一个子节点的情况
+            if (node.left === null) {
+              node = node.right
+              return node
+            }
+            if (node.right === null) {
+              node = node.left
+              return node
+            }
+            //删除的节点有两个子节点
+            //先找到最小的
+            const target = this.minNode(node.right)
+            //把找到的最小节点值给要删除的节点
+            node.element = target.element
+            //最后删除那个最小的节点
+            node.right = this.removeNode(node.right, target.element)
+            return node
+          }
+        }
+      }
+
+      const tree = new BinaryTree()
+    </script>
+  </body>
+</html>

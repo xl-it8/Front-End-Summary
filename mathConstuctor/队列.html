@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+
+      //栈 只能从后面进去 后面删除
+      //队列  先进先出
+      class Queue {
+        #items = {} //存储的对象
+        #lowCount = 0 //记录队列开头
+        #count = 0 //添加的个数
+
+        enqueue(data) {
+          this.#items[this.#count] = data //队列形式添加内容
+          this.#count++
+        }
+
+        dequeue() {
+          if (this.isEmpty()) {
+            return
+          }
+          const res = this.#items[this.#lowCount] //保存一份
+          delete this.#items[this.#lowCount]
+          this.#lowCount++
+          return res
+        }
+
+        isEmpty() {
+          //是否是空的
+          return this.size() === 0
+        }
+
+        size() {
+          //个数
+          return this.#count - this.#lowCount
+        }
+      }
+      //击鼓传花
+      function flower(persons, num) {
+        const q = new Queue()
+        for (let i = 0; i < persons.length; i++) {
+          //所有成员添加队列
+          q.enqueue(persons[i])
+        }
+        while (q.size() > 1) {
+          //当只有一名成员停止循环
+          for (let i = 0; i < num; i++) {
+            //接力7次后进入下一轮
+            q.enqueue(q.dequeue())
+          }
+          q.dequeue()
+        }
+        return q.dequeue() //弹出最后一位
+      }
+    </script>
+  </body>
+</html>

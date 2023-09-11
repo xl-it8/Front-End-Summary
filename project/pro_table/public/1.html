@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>点击assign跳转</button>
+    <button>点击replace跳转</button>
+    <script>
+      //   const arr = [3, 5, 6]
+      //   console.log(arr.join())
+      //   console.log(history)
+      //   history.pushState()
+      //   const obj = { a: 1 }
+      //   const noObj = 'jd'
+      //   try {
+      //     Reflect.set(noObj, 'b', '3')
+      //   } catch (e) {
+      //     console.dir(e)
+      //   }
+
+        class Parent {
+          o ='nih'
+          constructor(a) {
+            this.a = a //实例成员
+          }
+          say() {
+            console.log(this.a)
+          }
+        }
+        class Son extends Parent {
+          constructor(a, b) {
+            super(a)
+            this.b = b
+          }
+          say() {
+            console.log(this.b)
+          }
+        }
+        const sonInstance = new Son(2, 5)
+        sonInstance.say()
+        console.log(sonInstance)
+        console.log(Parent.b)
+        //   function fn(...rest){
+        //     console.log(rest)
+        //     console.log(b)
+        //   ?
+        //   fn('a',3,4,5,6)
+
+      //   const obj2 = {
+      //     c: 9,
+      //   }
+      //   function open(options) {
+      //     console.log(options)
+      //     this.a = options[0]
+      //     this.b = options[1]
+      //   }
+      //   open.bind(obj2)([4, 6, 6])
+      //   console.log(obj2)
+    </script>
+  </body>
+</html>

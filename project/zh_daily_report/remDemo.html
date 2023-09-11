@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="">
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      /* 
+      lib-flxible postcss-pxtorem
+      一般移动端以750的设计稿  1rem= 100px */
+      html {
+        font-size: 100px;
+      }
+    </style>
+    <script>
+      ;(function () {
+        const computed = () => {
+          let html = document.documentElement,
+            deviceWidth = html.clientWidth,
+            designWidth = 750
+          if (deviceW >= designW) { //保证设备宽度大于750px 就不在放大并且居中显示
+            html.style.fontSize = '100px'
+            return
+          }
+          // 750 / 100  = deviceWidth / ?
+          let radio = (deviceWidth * 100) / designWidth
+          html.style.fontSize = radio + 'px'
+        }
+        computed()
+        window.addEventListener('resize', computed)
+      })()
+    </script>
+  </head>
+  <body></body>
+</html>

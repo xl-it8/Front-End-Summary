@@ -1,0 +1,92 @@
+{
+  "pages": [{
+    "path": "pages/home/home",
+    "style": {
+      "enablePullDownRefresh": false,
+      "app-plus": {
+        "titleNView": false //禁用原生导航栏
+      }
+    }
+
+  }, {
+    "path": "pages/cate/cate",
+    "style": {
+      "enablePullDownRefresh": false
+    }
+
+  }, {
+    "path": "pages/cart/cart",
+    "style": {
+      "enablePullDownRefresh": false
+    }
+  }, {
+    "path": "pages/my/my",
+    "style": {
+      "enablePullDownRefresh": false
+    }
+
+  }],
+  "subPackages": [{
+    "root": "subpkg",
+    "pages": [{
+      "path": "goods_detail/goods_detail",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+
+    }, {
+      "path": "goods_list/goods_list",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": true,
+        "onReachBottomDistance": 150
+      }
+
+    }, {
+      "path": "search/search",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+
+    }]
+  }],
+  "tabBar": {
+    "selectedColor": "#C00000",
+    "list": [{
+        "pagePath": "pages/home/home",
+        "iconPath": "static/tab_icons/home.png",
+        "selectedIconPath": "static/tab_icons/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/cate/cate",
+        "text": "分类",
+        "iconPath": "static/tab_icons/cate.png",
+        "selectedIconPath": "static/tab_icons/cate-active.png"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "购物车",
+        "iconPath": "static/tab_icons/cart.png",
+        "selectedIconPath": "static/tab_icons/cart-active.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "static/tab_icons/my.png",
+        "selectedIconPath": "static/tab_icons/my-active.png"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "小木优购",
+    "navigationBarBackgroundColor": "#C00000",
+    "backgroundColor": "#FFFFFF",
+    "app-plus": {
+      "background": "#efeff4"
+    }
+  }
+}

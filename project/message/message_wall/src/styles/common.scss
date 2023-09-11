@@ -1,0 +1,45 @@
+$theme_01:#3B73F0;
+$theme_02:#E8E8E8;
+$theme_03:#707070;
+
+
+
+@mixin flexCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flexZY {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    border: none;
+    background-color: #FDFDFD;
+}
+
+@mixin message {
+    position: fixed;
+    top: 52px;
+    right: 0;
+    width: 360px;
+    height: 948px;
+    z-index: 1001;
+    background: rgba(255, 255, 255, 0.80);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
+    padding: 20px 0 0 20px;
+    box-sizing: border-box;
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 1s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+}

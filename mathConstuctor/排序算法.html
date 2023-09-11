@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //冒泡排序 [1,2,3,4,5] ==> [5,4,3,2,1] 从大到小
+      function swap(array, j) {
+        let temp = array[j + 1]
+        array[j + 1] = array[j]
+        array[j] = temp
+      }
+      function swap2(array, i, j) {
+        let temp = array[i]
+        array[i] = array[j]
+        array[j] = temp
+      }
+      function bundleSort(array) {
+        const { length } = array
+        for (let i = 0; i < length; i++) {
+          for (let j = 0; j < length - i - 1; j++) {
+            if (array[j] < array[j + 1]) {
+              swap(array, j)
+            }
+          }
+        }
+        return array
+      }
+
+      //   bundleSort([1, 2, 3, 4, 5])
+      //选择排序  [5,4,3,2,1] ==>[1,2,3,4,5]  从小到大
+      function selectSort(array) {
+        const { length } = array
+        let currentIndex //需要一个指针实时改变位置
+        for (let i = 0; i < length - 1; i++) {
+          currentIndex = i
+          for (let j = i; j < length; j++) {
+            if (array[currentIndex] > array[j + 1]) {
+              currentIndex = j + 1
+            }
+          }
+          swap2(array, currentIndex, i) //交换位置
+        }
+        return array
+      }
+      // console.log(selectSort([671, 22, 3, 45, 1]))
+
+      //插入排序  [5,4,3,2,1] ==>[1,2,3,4,5]  从小到大
+      function insertSort(array) {
+        const { length } = array
+        let tempt //存每一轮的的临时数据
+        for (let i = 1; i < length; i++) {
+          tempt = array[i] //保存当前的值
+          let j = i
+          while (j > 0 && array[j - 1] > tempt) {
+            //往前面比较
+            array[j] = array[j - 1] //如果前面的数字大于后面的就把后面的元素覆盖掉
+            j--
+          }
+          array[j] = tempt //比较完毕就把保存的值赋给最前面
+        }
+        return array
+      }
+      console.log(insertSort([5, 4, 3, 2, 1]))
+
+      //快速排序
+      function QuickSort(array) {
+        const base = array[0]
+        if (!array.length) {
+          //如果数组为空就不用再处理了 停止递归循环
+          return array
+        }
+        const leftArr = array.slice(1).filter((item) => item <= base)
+        const rightArr = array.slice(1).filter((item) => item > base)
+        //递归处理
+        return QuickSort(leftArr).concat(base).concat(QuickSort(rightArr))
+      }
+      QuickSort([3, 5, 4, 2, 1])
+    </script>
+  </body>
+</html>
