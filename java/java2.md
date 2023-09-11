@@ -444,37 +444,3 @@ BS架构
   添加约束 举例 alter table users add constraint fk_users_customers foreign key (sss) references customers(id)
  
  多表查询 n*y 笛卡尔积现象 减少出现提高查询性能
-       
-html css js vue2/3 react ts webpack/vite node vue3
-
-   口诀 都有儿子 先看是新增还是删除(i>e1是新增 反之 删除)  再看新增是前还是后插入 (let xx =e2+1 ) 
-   乱序比较两个map 新的没有删除 有插入 都有比对 利用最长递增子序列来处理
-   s1 = s2 = i
-
-         createVnode
-           render
-           patch
-processComponent  processElement
-
- setupInstance      mountElement
- setupOptions
- setupEffect       mountChildren
-
-   render   subTree
-
-
-
-   vue3 diff算法 sync from start  sync from end
-      a   b  c  o f g i j k             
-      a   b  c  f e h i j k
-      
-
-  2 3 5 6 7 8 3
-
-  2 
-  2 3
-  2 3 5 
-  2 3 5 6
-  2 3 5 6 7 
-  2 3 5 6 7 8
-  2 3 5 6 7 8 
